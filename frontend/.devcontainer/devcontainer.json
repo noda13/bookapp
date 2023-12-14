@@ -1,0 +1,23 @@
+{
+  "name": "Frontend",
+  "dockerComposeFile": "../../compose.yml",
+  "service": "frontend",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+      "extensions": [
+        "octref.vetur",
+        "Vue.volar",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "vue.vscode-typescript-vue-plugin",
+        "misterj.vue-volar-extention-pack",
+        "github.copilot",
+        "github.copilot-chat"
+      ]
+    }
+  }
+}

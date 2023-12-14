@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./frontend:/app:cached
+      - frontend_node_modules:/app/node_modules
+    # - 構築時は下記コマンドをコメントにする
+    # command: sh -c "yarn && yarn dev"
+    ports:
+      - 3000:3000
+      - 24678:24678
+    tty: true
+    environment:
+      - HOST=0.0.0.0
+      - port=80
+      - CHOKIDAR_USEPOLLING=true
+  backend:
+    build:
+      context: ./backend
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./backend:/app
+      - backend_node_modules:/app/node_modules
+    # - 構築時は下記コマンドをコメントにする
+    # command: sh -c "yarn && yarn start"
+    ports:
+      - 3001:3001
+    tty: true
+    environment:
+      - HOST=0.0.0.0
+      - port=80
+      - CHOKIDAR_USEPOLLING=true
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: rootp@ssword
+      MYSQL_DATABASE: "bookman-db"
+      MYSQL_USER: "bmuser"
+      MYSQL_PASSWORD: "myp@ssword"
+      MYSQLD_PUBLIC_KEY_RETRIEVAL: "true"
+    ports:
+      - 33306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  frontend_node_modules:
+  backend_node_modules:
+  mysql-data:
